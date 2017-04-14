@@ -12,10 +12,10 @@ void loop()
  float voltage = input * 5.0;
  voltage /= 1024.0; 
  
- Serial.print(voltage); Serial.println(" volts");
+ Serial.print(voltage); Serial.println(" Напряжение");
  
  float temperatureC = (voltage - 0.5) * 100 ;
- Serial.print(temperatureC); Serial.println(" degrees C");
+ Serial.print(temperatureC); Serial.println(" Температура");
  
- delay(1000);
+ delay(2000);
 }

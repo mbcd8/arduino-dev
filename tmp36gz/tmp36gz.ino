@@ -10,9 +10,9 @@ const char* month[] =
  byte Minute;
  byte Second;
  byte Day;
- byte DayofWeek; // Sunday is day 0 
- byte Month;     // Jan is month 0
- byte Year;      // the Year minus 1900  
+ byte DayofWeek;
+ byte Month;
+ byte Year;  
 
 int sensorPin = 0; 
  

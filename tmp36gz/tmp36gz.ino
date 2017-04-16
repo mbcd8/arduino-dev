@@ -1,11 +1,34 @@
 #include <DateTime.h>
 #include <SoftwareSerial.h>
 
-const char* day[] =
-{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-const char* month[] =
-{"January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"};
+//в порядке dd.mm.yy.
 
+//часть "dd".день.
+const char* day[] =
+{"Sunday",
+"Monday",
+"Tuesday",
+"Wednesday",
+"Thursday",
+"Friday",
+"Saturday"};
+
+//часть "mm".месяц.
+const char* month[] =
+{"January",
+"February",
+"March",
+"April",
+"May",
+"June",
+"July",
+"August",
+"September",
+"October",
+"November",
+"December"};
+
+//часть "yy".год.
  byte Hour;
  byte Minute;
  byte Second;
@@ -14,11 +37,11 @@ const char* month[] =
  byte Month;
  byte Year;  
 
-int sensorPin = 0; 
+int sensorPin = 0; //инициализация датчика.
  
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(9600); //установка baudrate.
 }
  
 void loop()                     
@@ -33,12 +56,15 @@ void loop()
   {
     processSyncMessage();
   {
-  if*(timeStatus()==timeNotSet)
-  Serial.println("Waiting for syncronization");
+  if*(timeStatus()==timeNotSet) //
+  Serial.println("Waiting for syncronization"); //здесь переход в ожидание.
+  else
+  goto //перейти в сканирование порта
   {
   if*(timeStatus()==timeNotSet) //если время получено.
   Serial.print("time"); //вывести время.
-  //температура
+  
+ //часть отвечающая за температуру.
  int input = analogRead(sensorPin);  
  float voltage = input * 5.0;
  voltage /= 1024.0; 

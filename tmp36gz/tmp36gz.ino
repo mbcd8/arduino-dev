@@ -28,7 +28,8 @@ const char* month[] =
 "November",
 "December"};
 
-//часть "yy".год.
+//часть "yy".год.ПОКА НЕТУ
+
  byte Hour;
  byte Minute;
  byte Second;
@@ -36,6 +37,13 @@ const char* month[] =
  byte DayofWeek;
  byte Month;
  byte Year;  
+
+int h, d, m, y;
+cin >> h >> d >> m >> y;
+if (m > 2) m -= 2;
+else
+m += 10, y--;
+int c =y / 100;
 
 int sensorPin = 0; //инициализация датчика.
  
@@ -65,6 +73,8 @@ void loop()
   Serial.print("time"); //вывести время.
   
  //часть отвечающая за температуру.
+ //работает но нужно калибровать конвертирование.
+ 
  int input = analogRead(sensorPin);  
  float voltage = input * 5.0;
  voltage /= 1024.0; 

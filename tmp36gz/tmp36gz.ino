@@ -1,6 +1,7 @@
 #include <DateTime.h>
 #include <SoftwareSerial.h>
 
+//Календарь.
 //в порядке dd.mm.yy.
 
 //часть "dd".день.
@@ -29,7 +30,7 @@ const char* month[] =
 "December"};
 
 //часть "yy".год.ПОКА НЕТУ
-
+//------------------------------
  byte Hour;
  byte Minute;
  byte Second;
@@ -37,7 +38,7 @@ const char* month[] =
  byte DayofWeek;
  byte Month;
  byte Year;  
-
+//------------------------------
 int a, h, d, m, y;
 cin >> a >> h >> d >> m >> y;
 if (m > 2) m -= 2;

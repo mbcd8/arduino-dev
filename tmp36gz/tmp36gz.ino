@@ -38,8 +38,8 @@ const char* month[] =
  byte Month;
  byte Year;  
 
-int h, d, m, y;
-cin >> h >> d >> m >> y;
+int a, h, d, m, y;
+cin >> a >> h >> d >> m >> y;
 if (m > 2) m -= 2;
 else
 m += 10, y--;
@@ -73,7 +73,7 @@ void loop()
   Serial.print("time"); //вывести время.
   
  //часть отвечающая за температуру.
- //работает но нужно калибровать конвертирование.
+ //работает,но требуется калибровка конвертирования.
  
  int input = analogRead(sensorPin);  
  float voltage = input * 5.0;

@@ -29,11 +29,11 @@ const char* month[] =
 
 //часть "yy".год.ПОКА НЕТУ
 //------------------------------
- byte Hour;
- byte Minute;
  byte Second;
+ byte Minute;
+ byte Hour;
  byte Day;
- byte DayofWeek;
+ byte Week;
  byte Month;
  byte Year;  
  //логика календаря.

@@ -1,6 +1,4 @@
-#include <DateTime.h>
 #include <SoftwareSerial.h>
-
 //Календарь.
 //в порядке dd.mm.yy.
 
@@ -38,21 +36,34 @@ const char* month[] =
  byte DayofWeek;
  byte Month;
  byte Year;  
-//------------------------------
+ //логика календаря.
+//-------------------------------------------
+//  переменная (A-минуты) значения от "1-60".
+//  переменная (H-часы) значения от "1-24".
+//  переменная (D-дни) значения от "1-31".
+//  переменная (M-месяцы) значения от "1-12".
+//  переменная (Y-годы) значения от "?".
+//-------------------------------------------
 int a, h, d, m, y;
 cin >> a >> h >> d >> m >> y;
-if (m > 2) m -= 2;
+if (a >= 60 ) 
+{
+ int (h+1);
+{
 else
-m += 10, y--;
-int c =y / 100;
-
+{
+if (h >= 24);
+{
+  int (d+1);
+}
+//------------------------------------------
 int sensorPin = 0; //инициализация датчика.
  
 void setup()
 {
   Serial.begin(9600); //установка baudrate.
 }
- 
+//------------------------------------------ 
 void loop()                     
 {
   void serialEvent(Serial myPort)
@@ -65,7 +76,8 @@ void loop()
   {
     processSyncMessage();
   {
-  if*(timeStatus()==timeNotSet) //
+  if (timeStatus()==timeNotSet) 
+  {
   Serial.println("Waiting for syncronization"); //здесь переход в ожидание.
   else
   goto //перейти в сканирование порта

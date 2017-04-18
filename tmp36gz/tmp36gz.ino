@@ -120,6 +120,7 @@ void setup()
 //------------------------------------------ 
 void loop()                     
 {
+  int DateValue;
   void serialEvent(Serial myPort)
 {
  String myString = myPort.readStringUntil('\n');
@@ -136,7 +137,7 @@ void loop()
   }
   else
   }
-  return  //перейти в сканирование порта
+  return DateValue;//перейти в сканирование порта
   }
   if*(timeStatus()==timeNotSet) //если время получено.
   Serial.print("time"); //вывести время.
@@ -155,4 +156,25 @@ void loop()
  Serial.print(voltage); 
  delay(2000);
  }
+}
+
+
+
+
+
+void start(char* p) {
+ Serial.println(p);
+}
+
+void (*Write)(char*);
+
+void setup()
+{
+  Serial.begin(9600);
+  Write = &start;
+  (*Write)("I've started, yeah! :)");
+}
+
+void loop()
+{  
 }

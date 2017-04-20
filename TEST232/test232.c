@@ -1,11 +1,12 @@
 #include<stdio.h>
+#include<string.h>
 #include<time.h>
+
 main()
 {
 int portnum;   //port number.
 int baudrate; //speed of port.
 int bits;    //stop bits.
-
 int x1, y1, z1, u1;
 int x2, y2, z2, u2;
 int x3, y3, z3, u3;

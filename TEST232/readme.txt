@@ -10,3 +10,8 @@
 'a.out' which will execute using the following command to view the output of your program:
 
 #type in terminal "./a.out".
+
+
+added 1440 x 900 (16:10) Display resolution.
+auto cleaning terminal after app is lauched.
+output bits quantity increased to 32.

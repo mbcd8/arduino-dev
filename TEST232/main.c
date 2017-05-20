@@ -1,99 +1,36 @@
-#include <stdio.h>                        // стандартная i/o lib.
-#include <termios.h>                      // перехват управления POSIX терминала
-#include <fcntl.h>
-#include <ncurses.h>                      // графика ncurses.
+#include <ncurses.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-/*-------------------------------------------------------------------------------------*/
-
-#define WORLD_WIDTH 100 // ширина окна.
-#define WORLD_HEIGHT 20 // высота окна.
-
-/*-------------------------------------------------------------------------------------*/
-
-int main(int argc, char *argv[])          //
+int main()
 {
-printf("\033[0d\33[2J");  // очищение экрана терминала.
+    const int width = 60;
+    const int height = 40;
 
-/*-------------------------------------------------------------------------------------*/
+    if (!initscr())
+    {
+        fprintf(stderr, "Error initialising ncurses.\n");
+        exit(1);
+    }
 
-WINDOW *snakeys_world;
-    int offsetx, offsety;
+    initscr();
+    curs_set(0);
+    refresh();
 
-/*-------------------------------------------------------------------------------------*/
+    int offsetx = (COLS - width) / 2;
+    int offsety = (LINES - height) / 2;
 
-initscr();                               // активируем текущий режим curses.
-refresh();
+    WINDOW *win = newwin(height, width, offsety, offsetx);
 
-/*-------------------------------------------------------------------------------------*/
+    char hello[] = "Hello, world!";
 
-raw();
-start_color();                           // включаем режим цвета на background.
+    mvaddstr(LINES/2, (COLS-strlen(hello))/2, hello);
+    box(win, 0, 0);
 
-init_pair(1,COLOR_BLACK, COLOR_GREEN);   // создаем слой цветов на вывод.
-init_pair(2,COLOR_CYAN, COLOR_WHITE);
-init_pair(3,COLOR_BLACK, COLOR_WHITE);
-init_pair(4,COLOR_WHITE, COLOR_BLACK);
+    wrefresh(win);
+    getch();
 
-/*-------------------------------------------------------------------------------------*/
-
-    offsetx = (COLS - WORLD_WIDTH) / 20;
-    offsety = (LINES - WORLD_HEIGHT) / 1;
-
-    snakeys_world = newwin(WORLD_HEIGHT,
-                           WORLD_WIDTH,
-                           offsety,
-                           offsetx);
-
-    box(snakeys_world, 0 , 0);
-
-/*-------------------------------------------------------------------------------------*/
-
-attron(COLOR_PAIR(1));                 // активируем режим слоя цветов.
-mvprintw(2, 3, "RBVT-14");             // вывод строки.
-attroff(COLOR_PAIR(1));                // выключаем режим слоя цветов.
-
-int derp = 4;
-
-attron(A_STANDOUT | A_UNDERLINE);      // включаем режим выделения текста.
-mvprintw(2, 10, "TEST232");            // выводим текст с параметрами местоположения.
-attroff(A_STANDOUT | A_UNDERLINE);     // выключаем режим выделения текста.
-
-/*-------------------------------------------------------------------------------------*/
-
-addch('$');                            // добавляем вывод последовательно.
-move(22,13);                           //
-
-/*-------------------------------------------------------------------------------------*/
-
-/* mvprintw(16, 4, "Baud :%s\n", );    // вывод установленной скорости. */
-/* mvprintw(17, 4, "Port :%s\n", );    // вывод выбранного порта tty.   */
-
-/*-------------------------------------------------------------------------------------*/
-
-attron(COLOR_PAIR(2));
-mvprintw(18, 3, "Date : %s\n", __DATE__ );  // вывод даты из системы.
-attroff(COLOR_PAIR(2)); 
-
-attron(COLOR_PAIR(2));
-mvprintw(19, 3, "Time : %s\n", __TIME__ );  // вывод времени из системы.
-attroff(COLOR_PAIR(2));
-
-attron(COLOR_PAIR(2));
-mvprintw(19, 18, ":00"); // костыль.
-attroff(COLOR_PAIR(2));
-
-/*-------------------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------------------*/
-start_color();                           // включаем режим цвета на background.
-mvaddch(2, 18,':');       // ввод для консоли.
-
-wrefresh(snakeys_world);  // вывод на экран.
-getch();                  // ожидание user ввода.
-delwin(snakeys_world);
-endwin();                 // завершение текущего режима curses.
-
-return 0;
+    delwin(win);
+    endwin();
 }
-

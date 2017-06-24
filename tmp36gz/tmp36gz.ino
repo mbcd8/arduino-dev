@@ -13,19 +13,22 @@ line = line + 1;
 float temp, volt;
 volt = pinVoltage(tempPin);
 temp = (volt - 0.5) * 100.0;
-  
-Serial.print("  line: ");
+
+Serial.print("line:");
+Serial.print(" | ");
 Serial.print(line);
-Serial.print(" | ");
 
-Serial.print("temperature: ");
+Serial.print(" | ");
+Serial.print(" temperature: ");
+Serial.print(" | ");
 Serial.print(temp);
-Serial.print(" | ");
 
-Serial.print("voltage: ");
+Serial.print(" | ");
+Serial.print(" voltage: ");
+Serial.print(" | ");
 Serial.print(volt);
 Serial.println(" | ");
-  
+
 delay(2000);
 }
 

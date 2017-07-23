@@ -9,11 +9,11 @@
 #include <ncurses.h>
 
 
-#define WORLD_WIDTH 115
-#define WORLD_HEIGHT 50
+#define WORLD_WIDTH 50                                                // 115.   
+#define WORLD_HEIGHT 20                                               // 50.
 
-int fd;                                                              // file дескриптор для serialport.
-char buf[1024];                                                       // buf зависит от размера строки принимаемых данных.
+int filed;                                                               // file дескриптор для serialport.
+char buf[64];                                                        // buf зависит от размера строки принимаемых данных.
 int outa=0;
 int iIn;
 
@@ -33,25 +33,21 @@ int main(int argc, char *argv[])
     curs_set(0);
     refresh();
 
-    offsetx = (COLS - WORLD_WIDTH) / 2;
-    offsety = (LINES - WORLD_HEIGHT) / 2;
+    offsetx = (COLS - WORLD_WIDTH) / 1;
+    offsety = (LINES - WORLD_HEIGHT) / 1;
 
     menu_win = newwin(WORLD_HEIGHT,
                            WORLD_WIDTH,
                            offsety,
                            offsetx);
-   //  box(menu_win, 0, 0);
-
 
 port_set:
 
-    fd = open("/dev/ttyUSB1", O_RDWR | O_NOCTTY | O_NDELAY);     // 'open_port()' - открывает serial port.
-
-//--------------------------------------------------OPTIONS-----------------------------------------------------------------------------
+    filed = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);     // 'open_port()' - открывает serial port.
 
 {
          struct termios options;                                     // структура для установки port.
-         tcgetattr(fd, &options);                                    // чтение параметров port.
+         tcgetattr(filed, &options);                                    // чтение параметров port.
 
          cfsetispeed(&options, B9600);                             // установка input baudrate.
          cfsetospeed(&options, B9600);                             // установка output baudrate.
@@ -60,50 +56,32 @@ port_set:
          options.c_cflag &= ~CSTOPB;                                 // выкл 2-х stopbit,вкл 1 stopbit.
          options.c_cflag &= ~CSIZE;                                  // выкл bit mask.
          options.c_cflag |= CS8;                                     // вкл 8bit.
-         tcsetattr(fd, TCSANOW, &options);                           // сохранение параметров порта.
+         tcsetattr(filed, TCSANOW, &options);                           // сохранение параметров порта.
 
 }
 
-//--------------------------------------------------KEYPAD--------------------------------------------------------------------------------
-/*
 
-status=0;
-
-key_pad:
-
-pad = wgetch(menu_win);
-switch(pad)
-
-{
-    case 0x157:
-    status++;
-else
-
-break;
-}    
-
-*/
-//--------------------------------------------------OUTPUT--------------------------------------------------------------------------------
-
-int delay=0;
+int delay = 0;
 
 read_port:
 
 box(menu_win, 0, 0);
 
 delay=0;
-posy=2;
+posy=1;
 posx=2;
 
-mvwprintw(menu_win, 1, posx, "Connected!");
+mvwprintw(menu_win, 18, posx, "Connected:");
+mvwprintw(menu_win, 18, posx + 34, "/dev/ttyUSB0");
 
 do
+
 {
 
-iIn=read(fd,buf,8);
+iIn=read(filed,buf,12);
 sleep(1);
 
-mvwprintw(menu_win, posy, posx, "%d", buf);
+mvwprintw(menu_win, posy, posx, "%s", buf);
 
 refresh();
 
@@ -114,31 +92,26 @@ posy++;
 
 }
 
-while(delay<47);
+while(delay < 16);
 
 wclear (menu_win);
 
 goto read_port;                                                      // прыжок на функцию 'read_port'.
+
 }
 
 /*
 
-//Получаем нажатие пользователя
-        switch ( getch() )
-        {
-            case KEY_UP:
-                if ( choice ) //Если возможно, переводим указатель вверх
-                    choice--; 
-                break;
-            case KEY_DOWN:
-                if ( choice != 3 ) //Если возможно, переводим указатель вниз
-                    choice++;
-                break;
-        }
+char* messageRcv;
+messageRcv = stream_rcv_nblock(stream);
+
+if(messageRcv != NULL) {
+    if(messageRcv[0] != '\xFF') {
+        printw("%s", messageRcv);
+        refresh();
     }
 
-    endwin();
-    return 0;
+    free(messageRcv);
 }
 
 */
